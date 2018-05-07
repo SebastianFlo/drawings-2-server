@@ -9,5 +9,8 @@ python app.py
 
 ## Description
 
-This project uses Flask API, FlaskRESTFul, etc... 
+This project uses Flask API, FlaskRESTFul, etc...
 
+### Deployment
+
+Automatic deployment from master branch on Heroku
