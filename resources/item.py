@@ -1,6 +1,12 @@
 from flask_restful import Resource
 from flask_restful import reqparse
-from flask_jwt_extended import jwt_required, get_jwt_claims, jwt_optional, get_jwt_identity
+from flask_jwt_extended import (
+    jwt_required,
+    get_jwt_claims,
+    jwt_optional,
+    get_jwt_identity,
+    fresh_jwt_required
+)
 from models.item import ItemModel
 
 
@@ -17,7 +23,8 @@ class Item(Resource):
         help="store_id cannot be missing")
 
     @jwt_required
-    def get(self, name):
+    def get(self,
+    name):
         item = ItemModel.find_by_name(name)
 
         if item:
@@ -25,7 +32,7 @@ class Item(Resource):
         else:
             return {'message': 'Item not found'}, 404
 
-    @jwt_required
+    @fresh_jwt_required
     def post(self, name):
 
         if ItemModel.find_by_name(name):
