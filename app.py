@@ -22,7 +22,7 @@ app.secret_key = 'jose'  # this should be a secret
 api = Api(app)
 
 # authentication endpoint
-app.config['JWT_AUTH_URL_RULE'] = '/login'
+# app.config['JWT_AUTH_URL_RULE'] = '/login'
 # jwt = JWT(app, authenticate, identity)
 jwt = JWTManager(app)
 # this creates /auth (username, password)
@@ -35,6 +35,11 @@ jwt = JWTManager(app)
 # authentication key name
 # app.config['JWT_AUTH_USERNAME_KEY'] = 'email'
 
+@jwt.user_claims_loader
+def add_claims_to_jwt(identity):
+    if identity == 1: # This should be in a db
+        return { 'is_admin': True}
+    return {'is_admin': False}
 
 # @jwt.auth_response_handler
 # def customized_response_handler(access_token, identity):

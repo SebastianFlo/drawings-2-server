@@ -1,6 +1,6 @@
 from flask_restful import Resource
 from flask_restful import reqparse
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_claims, jwt_optional, get_jwt_identity
 from models.item import ItemModel
 
 
@@ -43,6 +43,11 @@ class Item(Resource):
 
     @jwt_required
     def delete(self, name):
+        # use claims here
+        claims = get_jwt_claims()
+        if not claims['is_admin']:
+            return {'message': 'Admin priviledge required'}, 401
+
         item = ItemModel.find_by_name(name)
 
         if item:
@@ -76,18 +81,16 @@ class Item(Resource):
 
 
 class Items(Resource):
+
+    @jwt_optional
     def get(self):
-        # connection = sqlite3.connect('data.db')
-        # cursor = connection.cursor()
+        user_id= get_jwt_identity()
 
-        # query = 'SELECT * FROM items'
-        # result = cursor.execute(query)
-
-        # items = []
-        # for row in result:
-        #     items.append({'name': row[0], 'price': row[1]})
-
-        # connection.close()
-        # list(map(lambda x: x.json(), ItemMode.query.all())
         items = [item.json() for item in ItemModel.find_all()]
-        return {'items': items}, 200
+
+        if user_id:
+            return {'items': items}, 200
+        return {
+            'items': [item['name'] for item in items],
+            'message': 'More data available if you log in'
+        }, 200
