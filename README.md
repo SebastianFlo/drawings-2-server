@@ -1,4 +1,4 @@
-# Python REST API
+# Drawings Server
 
 ## Instalation
 
@@ -9,8 +9,8 @@ python app.py
 
 ## Description
 
-This project uses Flask API, FlaskRESTFul, etc...
+Server a client album. This project uses Flask API, FlaskRESTFul, etc...
 
 ### Deployment
 
-Automatic deployment from master branch on Heroku
+Automatic deployment from master branch on DO

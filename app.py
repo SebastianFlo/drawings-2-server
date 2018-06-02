@@ -6,10 +6,6 @@ from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from blacklist import BLACKLIST
 
-# from datetime import timedelta
-
-# database is created based on this
-# from security import authenticate, identity
 from resources.user import UserRegister, User, UserLogin, UserLogout, TokenRefresh
 from resources.item import Item, Items
 from resources.store import Store, Stores
@@ -21,7 +17,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXCEPTIONS'] = True
 app.config['JWT_BLACKLIST_ENABLED'] = True
 app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
-app.secret_key = 'jose'  # this should be a secret
+app.secret_key = os.environ['DDBPASS']
 api = Api(app)
 
 jwt = JWTManager(app)
