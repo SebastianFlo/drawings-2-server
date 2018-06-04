@@ -6,7 +6,7 @@ from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from blacklist import BLACKLIST
 
-from resources.user import UserRegister, User, UserLogin, UserLogout, TokenRefresh
+from resources.user import User, UserLogin, UserLogout, TokenRefresh
 from resources.item import Item, Items
 from resources.category import Category, Categories
 
@@ -17,7 +17,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXCEPTIONS'] = True
 app.config['JWT_BLACKLIST_ENABLED'] = True
 app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
-app.secret_key = os.environ['DDBPASS']
+# app.secret_key = os.environ['DDBPASS']
 api = Api(app)
 
 jwt = JWTManager(app)
@@ -85,7 +85,6 @@ api.add_resource(Items, '/items')
 api.add_resource(Category, '/categories/<string:name>')
 api.add_resource(Categories, '/categories')
 api.add_resource(User, '/user/<int:user_id>')
-api.add_resource(UserRegister, '/register')
 api.add_resource(UserLogin, '/login')
 api.add_resource(UserLogout, '/logout')
 api.add_resource(TokenRefresh, '/refresh')
