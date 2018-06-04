@@ -7,19 +7,25 @@ class ItemModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
     price = db.Column(db.Float(precision=2))
-    store_id = db.Column(db.Integer, db.ForeignKey('stores.id'))
-    store = db.relationship('StoreModel')
+    size = db.Column(db.String(80))
+    description = db.Column(db.String(500))
+    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
+    category = db.relationship('CategoryModel')
 
-    def __init__(self, name, price, store_id):
+    def __init__(self, name, price, category_id):
         self.name = name
         self.price = price
-        self.store_id = store_id
+        self.size = size
+        self.description = description
+        self.category_id = category_id
 
     def json(self):
         return {
             'id': self.id,
             'name': self.name,
-            'store_id': self.store_id,
+            'size': self.size,
+            'description': self.description,
+            'category_id': self.category_id,
             'price': self.price
         }
 
@@ -31,38 +37,10 @@ class ItemModel(db.Model):
     def find_all(cls):
         return cls.query.all()
 
-        # connection = sqlite3.connect('data.db')
-        # cursor = connection.cursor()
-
-        # query = 'SELECT * FROM items WHERE name=?'
-        # result = cursor.execute(query, (name, ))
-        # row = result.fetchone()
-
-        # connection.close()
-
-        # if row:
-        #     return cls(*row)
-
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
-        # connection = sqlite3.connect('data.db')
-        # cursor = connection.cursor()
-
-        # query = 'INSERT INTO items VALUES(?, ?)'
-        # cursor.execute(query, (self.name, self.price))
-
-        # connection.commit()
-        # connection.close()
 
     def delete_from_db(self):
         db.session.delete(self)
         db.session.commit()
-        # connection = sqlite3.connect('data.db')
-        # cursor = connection.cursor()
-
-        # query = 'UPDATE items SET price=? WHERE name=?'
-        # cursor.execute(query, (self.price, self.name))
-
-        # connection.commit()
-        # connection.close()

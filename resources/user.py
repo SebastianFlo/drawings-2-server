@@ -23,26 +23,6 @@ _user_parser.add_argument('password',
                           help="This field cannot be missing")
 
 
-class UserRegister(Resource):
-
-    def post(self):
-        data = _user_parser.parse_args()
-
-        if UserModel.find_by_username(data['username']):
-            return {
-                'user': None,
-                'message': 'A user with that username already exists'
-            }, 400
-
-        user = UserModel(**data)
-        user.save_to_db()
-
-        return {
-            'user': data['username'],
-            'message': 'User created successfully'
-        }, 201
-
-
 class User(Resource):
 
     @classmethod

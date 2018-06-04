@@ -14,13 +14,17 @@ class Item(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('price',
         type=float,
-        required=True,
-        help="price cannot be missing")
-
-    parser.add_argument('store_id',
+        required=False)
+    parser.add_argument('size',
+        type=float,
+        required=False)
+    parser.add_argument('description',
+        type=float,
+        required=False)
+    parser.add_argument('category_id',
         type=int,
         required=True,
-        help="store_id cannot be missing")
+        help="category_id cannot be missing")
 
     @jwt_required
     def get(self,
@@ -59,14 +63,6 @@ class Item(Resource):
 
         if item:
             item.delete_from_db()
-        # connection = sqlite3.connect('data.db')
-        # cursor = connection.cursor()
-
-        # query = 'DELETE FROM items WHERE name=?'
-        # cursor.execute(query, (name, ))
-
-        # connection.commit()
-        # connection.close()
 
         return {'message': '{} Item Deleted'.format(name)}
 
@@ -80,7 +76,9 @@ class Item(Resource):
             item = ItemModel(name, **data)
         else:
             item.price = data['price']
-            item.store_id = data['store_id']
+            item.size = data['size']
+            item.description = data['description']
+            item.category_id = data['category_id']
 
         item.save_to_db()
 

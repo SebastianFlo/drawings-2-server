@@ -8,7 +8,7 @@ from blacklist import BLACKLIST
 
 from resources.user import UserRegister, User, UserLogin, UserLogout, TokenRefresh
 from resources.item import Item, Items
-from resources.store import Store, Stores
+from resources.category import Category, Categories
 
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
@@ -82,8 +82,8 @@ port = 5000
 
 api.add_resource(Item, '/items/<string:name>')
 api.add_resource(Items, '/items')
-api.add_resource(Store, '/stores/<string:name>')
-api.add_resource(Stores, '/stores')
+api.add_resource(Category, '/categories/<string:name>')
+api.add_resource(Categories, '/categories')
 api.add_resource(User, '/user/<int:user_id>')
 api.add_resource(UserRegister, '/register')
 api.add_resource(UserLogin, '/login')
