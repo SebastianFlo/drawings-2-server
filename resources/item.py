@@ -16,13 +16,10 @@ class Item(Resource):
         type=float,
         required=False)
     parser.add_argument('size',
-        type=float,
         required=False)
     parser.add_argument('description',
-        type=float,
         required=False)
     parser.add_argument('url',
-        type=float,
         required=True,
         help="url cannot be missing")
     parser.add_argument('category_id',
