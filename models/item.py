@@ -13,7 +13,7 @@ class ItemModel(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
     category = db.relationship('CategoryModel')
 
-    def __init__(self, name, price, category_id):
+    def __init__(self, name, price, size, description, url, category_id):
         self.name = name
         self.price = price
         self.size = size
