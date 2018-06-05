@@ -21,6 +21,10 @@ class Item(Resource):
     parser.add_argument('description',
         type=float,
         required=False)
+    parser.add_argument('url',
+        type=float,
+        required=True,
+        help="url cannot be missing")
     parser.add_argument('category_id',
         type=int,
         required=True,
@@ -78,6 +82,7 @@ class Item(Resource):
             item.price = data['price']
             item.size = data['size']
             item.description = data['description']
+            item.url = data['url']
             item.category_id = data['category_id']
 
         item.save_to_db()

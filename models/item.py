@@ -9,6 +9,7 @@ class ItemModel(db.Model):
     price = db.Column(db.Float(precision=2))
     size = db.Column(db.String(80))
     description = db.Column(db.String(500))
+    url = db.Column(db.String(2000))
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
     category = db.relationship('CategoryModel')
 
@@ -17,6 +18,7 @@ class ItemModel(db.Model):
         self.price = price
         self.size = size
         self.description = description
+        self.url = url
         self.category_id = category_id
 
     def json(self):
@@ -25,6 +27,7 @@ class ItemModel(db.Model):
             'name': self.name,
             'size': self.size,
             'description': self.description,
+            'url': self.url,
             'category_id': self.category_id,
             'price': self.price
         }
