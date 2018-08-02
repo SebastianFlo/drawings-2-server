@@ -8,29 +8,33 @@ from blacklist import BLACKLIST
 
 from resources.user import User, UserLogin, UserLogout, TokenRefresh
 from resources.item import Item, Items
+from resources.template import Template, Templates
 from resources.category import Category, Categories
 
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXCEPTIONS'] = True
 app.config['JWT_BLACKLIST_ENABLED'] = True
 app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
-app.secret_key = os.environ['DDBPASS']
+# app.secret_key = os.environ['DDBPASS']
+app.secret_key = 'shittypass'
 api = Api(app)
 
 jwt = JWTManager(app)
+
 
 @jwt.token_in_blacklist_loader
 def check_token_in_blacklist(decrypted_token):
     return decrypted_token['jti'] in BLACKLIST
 
+
 @jwt.user_claims_loader
 def add_claims_to_jwt(identity):
-    if identity == 1: # This should be in a db
-        return { 'is_admin': True}
+    if identity == 1:  # This should be in a db
+        return {'is_admin': True}
     return {'is_admin': False}
+
 
 @jwt.expired_token_loader
 def expired_token_callback():
@@ -41,6 +45,7 @@ def expired_token_callback():
         }
     }), 401
 
+
 @jwt.invalid_token_loader
 def invalid_token_callback(error):
     return jsonify({
@@ -49,6 +54,7 @@ def invalid_token_callback(error):
             'message': 'invalid_token'
         }
     }), 401
+
 
 @jwt.unauthorized_loader
 def unauthorized_callback(error):
@@ -59,6 +65,7 @@ def unauthorized_callback(error):
         }
     }), 401
 
+
 @jwt.needs_fresh_token_loader
 def needs_fresh_token_callback(error):
     return jsonify({
@@ -67,6 +74,7 @@ def needs_fresh_token_callback(error):
             'message': 'needs_fresh_token'
         }
     }), 401
+
 
 @jwt.revoked_token_loader
 def revoked_token_callback():
@@ -82,6 +90,8 @@ port = 5000
 
 api.add_resource(Item, '/items/<string:name>')
 api.add_resource(Items, '/items')
+api.add_resource(Template, '/templates/<string:id>')
+api.add_resource(Templates, '/templates')
 api.add_resource(Category, '/categories/<string:name>')
 api.add_resource(Categories, '/categories')
 api.add_resource(User, '/user/<int:user_id>')
