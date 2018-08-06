@@ -11,7 +11,7 @@ class TemplateModel(db.Model):
     html = db.Column(db.String())
     components = db.Column(db.String())
 
-    def __init__(self, assets, css, styles, html, components):
+    def __init__(self, id, assets, css, styles, html, components):
         self.assets = assets
         self.css = css
         self.styles = styles
@@ -28,6 +28,7 @@ class TemplateModel(db.Model):
 
     def json(self):
         return {
+            # 'id': self.id,
             'assets': self.assets,
             'css': self.css,
             'styles': self.styles,

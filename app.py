@@ -17,11 +17,18 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXCEPTIONS'] = True
 app.config['JWT_BLACKLIST_ENABLED'] = True
 app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
-app.secret_key = os.environ['DDBPASS']
-# app.secret_key = 'shittypass'
+# app.secret_key = os.environ['DDBPASS']
+app.secret_key = 'shittypass'
 api = Api(app)
 
 jwt = JWTManager(app)
+
+
+# TODO: Comment out for prod. Figure out how to get env
+# Creating database
+@app.before_first_request
+def create_tables():
+    db.create_all()
 
 
 @jwt.token_in_blacklist_loader
@@ -90,7 +97,7 @@ port = 5000
 
 api.add_resource(Item, '/items/<string:name>')
 api.add_resource(Items, '/items')
-api.add_resource(Template, '/templates/<string:id>')
+api.add_resource(Template, '/templates/<string:template_id>')
 api.add_resource(Templates, '/templates')
 api.add_resource(Category, '/categories/<string:name>')
 api.add_resource(Categories, '/categories')
