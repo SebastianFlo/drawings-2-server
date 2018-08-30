@@ -3,8 +3,6 @@ from flask_restful import reqparse
 from flask_jwt_extended import (
     jwt_required,
     get_jwt_claims,
-    jwt_optional,
-    get_jwt_identity,
     fresh_jwt_required
 )
 from models.item import ItemModel
@@ -28,8 +26,7 @@ class Item(Resource):
         help="category_id cannot be missing")
 
     @jwt_required
-    def get(self,
-    name):
+    def get(self, name):
         item = ItemModel.find_by_name(name)
 
         if item:

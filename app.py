@@ -8,6 +8,7 @@ from blacklist import BLACKLIST
 
 from resources.user import User, UserLogin, UserLogout, TokenRefresh
 from resources.item import Item, Items
+from resources.file import File, Files
 from resources.template import Template, Templates
 from resources.category import Category, Categories
 
@@ -17,6 +18,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXCEPTIONS'] = True
 app.config['JWT_BLACKLIST_ENABLED'] = True
 app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
+app.config['UPLOAD_FOLDER'] = 'static/'
 # app.secret_key = os.environ['DDBPASS']
 app.secret_key = 'shittypass'
 api = Api(app)
@@ -97,6 +99,8 @@ port = 5000
 
 api.add_resource(Item, '/items/<string:name>')
 api.add_resource(Items, '/items')
+api.add_resource(File, '/files/<string:filename>')
+api.add_resource(Files, '/files')
 api.add_resource(Template, '/templates/<string:template_id>')
 api.add_resource(Templates, '/templates')
 api.add_resource(Category, '/categories/<string:name>')
